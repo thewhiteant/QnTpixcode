@@ -2,6 +2,7 @@ import cv2
 import matplotlib.pyplot as plt
 from antcrypt import encrypt, decrypt
 import numpy
+import keyboard
 
 
 
@@ -13,47 +14,51 @@ print("1.En \n2.Dec \nCh:",end="")
 ch = int(input())
 
 if ch == 1:
+    try :
 
+        fn = input("Open File by name:")
+        img = cv2.imread(fn)
+        img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+        width, height, chennel = img.shape
+        txt = input("Your Message: ")
+        count = 0
+        for w in range(width):
+            for h in range(height):
+                if len(txt) > count:
+                    img[w, h] = ord(txt[count])
+                    count += 1
+        img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
+        nm = input("Save File: ")
+        cv2.imwrite(nm, img)
+        print(f"Your Password_Hash: {encrypt(str(count))}")
+    except:
+        print("Something Wrong!")
 
-    fn = input("Open File by name: ")
-    data =  input("Your Message: ")
-    msg = encrypt(data)
-    img = cv2.imread(fn)
-    img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-    w, h, c = img.shape
-    count = 0
-    for ht in range(w-3):
-        if ht % 10 == 0:
-            img[ht, int(h/2)] = numpy.array([ord(msg[count]), 255, 255])
-            count += 1
-        elif count == len(msg):
-            img[ht+10, int(h/2)] = numpy.array([126, 255, 255])
-            break
-
-
-    plt.imshow(img)
-    img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
-    nm = input("Filename(Save):")
-    cv2.imwrite(nm, img)
 
 elif ch == 2:
+    try:
+        fn = input("Open File by name:")
+        img = cv2.imread(fn)
+        img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+        width, height, chennel = img.shape
+        
+        lo = input("PassHash: ")
+        lo = decrypt(lo)
+        lo = int(lo)
+        countx = 0
+        out = []
+        for w in range(width):
+            for h in range(height):
+                if lo > countx:
 
-    fn = input("Open File by name:")
-    img = cv2.imread(fn)
-    img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-    w, h, c = img.shape
-    collector = []
-    for ht in range(w-3):
-        if ht % 10 == 0:
-            if chr(int((img[ht+1, int(h/2)]).tolist()[0])) != "~":
-                data = int((img[ht, int(h/2)]).tolist()[0])
-                collector.append(chr(data))
-            else:
-                break
+                    out.append(chr(int(img[w, h].tolist()[0])))
+                    countx += 1
 
-    has = ("".join(collector))
-    res = decrypt(has)
-    print(f"Dec: {res}")
+
+        msg = "".join(out)
+        print(f"Message : {msg}")
+    except:
+        print("Something Wrong!")
 
 else:
     print("Nope!")
