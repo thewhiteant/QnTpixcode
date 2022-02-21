@@ -34,7 +34,7 @@ if ch == 1:
     img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
     nm = input("Filename(Save):")
     print(f"Password_hash:{encrypt(str(count))}")
-    cv2.imwrite(nm, img)
+    cv2.imwrite(f"{nm}.png", img)
 
 elif ch == 2:
 
