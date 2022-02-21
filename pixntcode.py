@@ -1,12 +1,8 @@
-<<<<<<< HEAD
-
-
-
-=======
 import cv2
 import matplotlib.pyplot as plt
-from antcrypt import encrypt, decrypt
-import numpy
+from antapi import encrypt, decrypt
+
+
 
 
 
@@ -14,6 +10,8 @@ import numpy
 
 
 print("_________PiXntcode________")
+print("____Only Png Supported____")
+
 print("1.En \n2.Dec \nCh:",end="")
 ch = int(input())
 
@@ -22,44 +20,42 @@ if ch == 1:
 
     fn = input("Open File by name: ")
     data =  input("Your Message: ")
-    msg = encrypt(data)
+    msg = data
     img = cv2.imread(fn)
     img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
     w, h, c = img.shape
     count = 0
-    for ht in range(w-3):
-        if ht % 10 == 0:
-            img[ht, int(h/2)] = numpy.array([ord(msg[count]), 255, 255])
-            count += 1
-        elif count == len(msg):
-            img[ht+10, int(h/2)] = numpy.array([126, 255, 255])
-            break
+    for wt in range(w):
+        for ht in range(h):
+            if len(msg)> count:
+                img[wt,ht] = [int(ord(msg[count])),0,0]
+                count += 1
 
-
-    plt.imshow(img)
     img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
     nm = input("Filename(Save):")
+    print(f"Password_hash:{count}")
     cv2.imwrite(nm, img)
 
 elif ch == 2:
 
     fn = input("Open File by name:")
     img = cv2.imread(fn)
+    n = input("PasswordHash:")
+    n = int(n)
     img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
     w, h, c = img.shape
     collector = []
-    for ht in range(w-3):
-        if ht % 10 == 0:
-            if chr(int((img[ht+1, int(h/2)]).tolist()[0])) != "~":
-                data = int((img[ht, int(h/2)]).tolist()[0])
-                collector.append(chr(data))
-            else:
-                break
+    countx = 0
+    for wt in range(w):
+        for ht in range(h):
+            if n > countx:    
+                collector.append(chr(int(img[wt,ht].tolist()[0])))
+                countx +=1
 
     has = ("".join(collector))
-    res = decrypt(has)
-    print(f"Dec: {res}")
+    # res = decrypt(has)
+    print(f"Msa {has}")
 
 else:
     print("Nope!")
->>>>>>> parent of d909d9b (.)
+
