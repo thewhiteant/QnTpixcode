@@ -20,7 +20,7 @@ if ch == 1:
 
     fn = input("Open File by name: ")
     data =  input("Your Message: ")
-    msg = data
+    msg = encrypt(data)
     img = cv2.imread(fn)
     img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
     w, h, c = img.shape
@@ -33,7 +33,7 @@ if ch == 1:
 
     img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
     nm = input("Filename(Save):")
-    print(f"Password_hash:{count}")
+    print(f"Password_hash:{encrypt(str(count))}")
     cv2.imwrite(nm, img)
 
 elif ch == 2:
@@ -41,6 +41,7 @@ elif ch == 2:
     fn = input("Open File by name:")
     img = cv2.imread(fn)
     n = input("PasswordHash:")
+    n = decrypt(n)
     n = int(n)
     img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
     w, h, c = img.shape
@@ -53,7 +54,7 @@ elif ch == 2:
                 countx +=1
 
     has = ("".join(collector))
-    # res = decrypt(has)
+    res = decrypt(has)
     print(f"Msa {has}")
 
 else:
