@@ -4,20 +4,12 @@ from antapi import encrypt, decrypt
 
 
 
-
-
-
-
-
 print("_________PiXntcode________")
 print("____Only Png Supported____")
-
 print("1.En \n2.Dec \nCh:",end="")
 ch = int(input())
 
 if ch == 1:
-
-
     fn = input("Open File by name: ")
     data =  input("Your Message: ")
     msg = encrypt(data)
@@ -30,14 +22,12 @@ if ch == 1:
             if len(msg)> count:
                 img[wt,ht] = [int(ord(msg[count])),0,0]
                 count += 1
-
     img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
     nm = input("Filename(Save):")
     print(f"Password_hash:{encrypt(str(count))}")
     cv2.imwrite(f"{nm}.png", img)
 
 elif ch == 2:
-
     fn = input("Open File by name:")
     img = cv2.imread(fn)
     n = input("PasswordHash:")
@@ -52,11 +42,11 @@ elif ch == 2:
             if n > countx:    
                 collector.append(chr(int(img[wt,ht].tolist()[0])))
                 countx +=1
-
     has = ("".join(collector))
     res = decrypt(has)
-    print(f"Msa {has}")
+    print(f"Msg {res}")
 
 else:
     print("Nope!")
+
 
