@@ -44,7 +44,7 @@ elif ch == 2:
                 countx +=1
     has = ("".join(collector))
     res = decrypt(has)
-    print(f"Msg {res}")
+    print(f"Msg: {res}")
 
 else:
     print("Nope!")
