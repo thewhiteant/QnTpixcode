@@ -4,7 +4,7 @@ from antapi import encrypt, decrypt
 
 
 
-print("_________PiXntcode________")
+print("_________PiXntcode________")2
 print("____Only Png Supported____")
 print("1.En \n2.Dec \nCh:",end="")
 ch = int(input())
