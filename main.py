@@ -1,10 +1,10 @@
+from warnings import catch_warnings
 import cv2
 import matplotlib.pyplot as plt
 from antapi import encrypt, decrypt
 
 
 
-print("_________PiXntcode________")
 print("____Only Png Supported____")
 print("1.En \n2.Dec \nCh:",end="")
 ch = int(input())
@@ -28,24 +28,26 @@ if ch == 1:
     cv2.imwrite(f"{nm}.png", img)
 
 elif ch == 2:
-    fn = input("Open File by name:")
-    img = cv2.imread(fn)
-    n = input("PasswordHash:")
-    n = decrypt(n)
-    n = int(n)
-    img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-    w, h, c = img.shape
-    collector = []
-    countx = 0
-    for wt in range(w):
-        for ht in range(h):
-            if n > countx:    
-                collector.append(chr(int(img[wt,ht].tolist()[0])))
-                countx +=1
-    has = ("".join(collector))
-    res = decrypt(has)
-    print(f"Msg: {res}")
-
+    try:
+        fn = input("Open File by name:")
+        img = cv2.imread(fn)
+        n = input("PasswordHash: ")
+        n = decrypt(n)
+        n = int(n)
+        img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+        w, h, c = img.shape
+        collector = []
+        countx = 0
+        for wt in range(w):
+            for ht in range(h):
+                if n > countx:    
+                    collector.append(chr(int(img[wt,ht].tolist()[0])))
+                    countx +=1
+        has = ("".join(collector))
+        res = decrypt(has)
+        print(f"Msg: {res}")
+    except:
+        print("Some error Happend")
 else:
     print("Nope!")
 
