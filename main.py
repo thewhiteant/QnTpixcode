@@ -1,10 +1,9 @@
-from warnings import catch_warnings
 import cv2
 import matplotlib.pyplot as plt
 from antapi import encrypt, decrypt
 
 
-
+print("_________PiXntcode________")
 print("____Only Png Supported____")
 print("1.En \n2.Dec \nCh:",end="")
 ch = int(input())
